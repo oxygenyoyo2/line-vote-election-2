@@ -24,7 +24,6 @@ export default function Modal({ showModal = false, setShowModal, voteId, setStat
       }
     },
     onError: (error) => {
-      console.log('onError', error)
       if (error.message === "Duplicated IDCard") {
         setIsVoted(true)
       }

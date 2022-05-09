@@ -1,7 +1,6 @@
 import NumberFormat from "react-number-format"
 
 const FormIDCard = ({ setShowModal, checkIDCardFormat, submit, isVoteSuccess, doneSubmit, errorMessage, setErrorMessage }) => {
-  console.log('FormIDCard isVoteSuccess', isVoteSuccess)
   return (
     <>
       <div className="relative p-6 flex-auto">

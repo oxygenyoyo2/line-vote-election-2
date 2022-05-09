@@ -35,7 +35,6 @@ function App() {
   useSubscription(SUBSCRIPTION_VOTE,
     {
       onSubscriptionData: (data) => {
-        console.log('onSubscriptionData', data)
         if (data.subscriptionData.data.voteUpdated) {
           const { id, votedCount } = data.subscriptionData.data.voteUpdated
           if (candidates && candidates.length > 0) {
@@ -61,9 +60,7 @@ function App() {
       const winner = candidates.reduce(function (prev, current) {
         return (prev.votedCount > current.votedCount) ? prev : current
       })
-      console.log('summary', summary)
       setTotalVote(summary)
-      console.log('winner', winner)
       setWinner(winner)
     }
   }, [status])
@@ -71,7 +68,6 @@ function App() {
 
   useQuery(GET_CANDIDATES, {
     onCompleted: (data) => {
-      console.log('useQuery', data)
       setCandidates(data.candidates)
     }
   })
