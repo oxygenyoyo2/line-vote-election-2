@@ -6,7 +6,9 @@ const ControlElection = ({ setStatus, status }) => {
 
   const MUTATION_OPEN = gql`mutation { open }`
   const MUTATION_CLOSE = gql`mutation { close }`
-  const [openElection] = useMutation(MUTATION_OPEN)
+  const [openElection] = useMutation(MUTATION_OPEN, {
+    errorPolicy: 'ignore'
+  })
   const [closeElection] = useMutation(MUTATION_CLOSE)
 
   const onSelect = (e) => {
@@ -30,15 +32,15 @@ const ControlElection = ({ setStatus, status }) => {
     <>
       <div id="menu" className="transition-all duration-400 menu fixed top-[100px] right-[-80px] flex flex-col items-center bg-gray-300" style={{ zIndex: 100 }}>
         <div className="p-3 w-[80px] flex flex-col items-center">
-          <input onClick={onSelect} checked={status === 'idle' && 'checked'} className="button" type="radio" name="toggle" value="idle" />
+          <input onChange={onSelect} checked={status === 'idle' && 'checked'} className="button" type="radio" name="toggle" value="idle" />
           Idle
         </div>
         <div className="p-3 w-[80px] flex flex-col items-center">
-          <input onClick={onSelect} checked={status === 'open' && 'checked'} className="button" type="radio" name="toggle" value="open" />
+          <input onChange={onSelect} checked={status === 'open' && 'checked'} className="button" type="radio" name="toggle" value="open" />
           Open
         </div>
         <div className="p-3 w-[80px] flex flex-col items-center">
-          <input onClick={onSelect} checked={status === 'close' && 'checked'} className="button" type="radio" name="toggle" value="close" />
+          <input onChange={onSelect} checked={status === 'close' && 'checked'} className="button" type="radio" name="toggle" value="close" />
           Close
         </div>
         <button onClick={toggleMenu} className="absolute left-[-30px] bg-gray-300 p-1 px-3 toggle-menu">{toggleState ? ">" : "<"}</button>

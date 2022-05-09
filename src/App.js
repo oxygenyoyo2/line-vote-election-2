@@ -4,17 +4,34 @@ import { useSubscription, gql, useQuery } from '@apollo/client'
 import Modal from './components/Modal'
 import CandidateCard from './components/CandidateCard'
 import ControlElection from './components/ControlElection'
+import { withApollo } from '@apollo/client/react/hoc';
+import Skeleton from './components/Skeleton'
+
+export const SUBSCRIPTION_VOTE = gql`subscription { voteUpdated { id, votedCount } }`
+export const GET_CANDIDATES = gql`
+  query {
+    candidates {
+    id
+    name
+    dob
+    bioLink
+    policy
+    imageURL
+    votedCount
+    }
+  }
+`
 
 function App() {
   const [showModal, setShowModal] = React.useState(false)
   const [voteId, setVoteId] = React.useState()
-  const [status, setStatus] = React.useState('open')
+  const [status, setStatus] = React.useState('idle')
   const [candidates, setCandidates] = React.useState([])
   const [totalVote, setTotalVote] = React.useState(0)
   const [winner, setWinner] = React.useState()
 
 
-  const SUBSCRIPTION_VOTE = gql`subscription { voteUpdated { id, votedCount } }`
+
   useSubscription(SUBSCRIPTION_VOTE,
     {
       onSubscriptionData: (data) => {
@@ -51,28 +68,13 @@ function App() {
     }
   }, [status])
 
-  const GET_CANDIDATES = gql`
-    query {
-      candidates {
-      id
-      name
-      dob
-      bioLink
-      policy
-      imageURL
-      votedCount
-    }
-  }
-  `
+
   useQuery(GET_CANDIDATES, {
     onCompleted: (data) => {
       console.log('useQuery', data)
       setCandidates(data.candidates)
     }
   })
-
-
-
 
   return (
     <div className="App">
@@ -109,7 +111,12 @@ function App() {
               votedCount={candidate.votedCount} />)}
           </div>
           :
-          <div>Loading...</div>
+          <div className='grid lg:grid-cols-4 md:grid-cols-3 gap-4'>
+            {[...Array(10).keys()].map((value) => {
+              return <Skeleton key={value} />
+            })}
+
+          </div>
         }
         <Modal
           showModal={showModal}
@@ -117,11 +124,10 @@ function App() {
           voteId={voteId}
           setStatus={setStatus}
         />
-
       </main>
     </div>
 
   );
 }
 
-export default App
+export default withApollo(App)
