@@ -4,11 +4,11 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 const httpLink = new HttpLink({
-  uri: process.env.BACKEND_HTTP || "http://localhost:3000/query"
+  uri: process.env.REACT_APP_BACKEND_HTTP || "http://localhost:3000/query"
 })
 
 const wsLink = new WebSocketLink({
-  uri: process.env.BACKEND_WS || "ws://localhost:3000/query",
+  uri: process.env.REACT_APP_BACKEND_WS || "ws://localhost:3000/query",
   options: {
     reconnect: true
   }
